@@ -1,8 +1,11 @@
+bodyParser = require \body-parser
+serveStatic = require \serve-static
+
 @include = ->
-  @use \json, @app.router, @express.static __dirname
-  @app.use \/edit @express.static __dirname
-  @app.use \/view @express.static __dirname
-  @app.use \/app @express.static __dirname
+  @use bodyParser.json()
+  @app.use \/edit serveStatic __dirname
+  @app.use \/view serveStatic __dirname
+  @app.use \/app serveStatic __dirname
 
   @include \dotcloud
   @include \player-broadcast
@@ -36,7 +39,7 @@
   #Time Triggered Email - contains next send time 
   dataDir = process.env.OPENSHIFT_DATA_DIR   
   #dataDir = ".."  
-  
+
   sendFile = (file) -> ->
     @response.type Html
     @response.sendfile "#RealBin/#file"
@@ -53,6 +56,7 @@
   new-room = -> require \uuid-pure .newId 12 36 .toLowerCase!
 
   @get '/': sendFile \index.html
+  @get '/zappajs-client.js': sendFile \node_modules/zappajs-client/browser.js
   #@get '/favicon.ico': -> @response.send 404 ''
   #return site icons
   @get '/favicon.ico': sendFile \favicon.ico
@@ -248,7 +252,7 @@
         sendFile(ui-file).call @
       else @response.redirect "#BASEPATH/#{ @params.room }?auth=0"
     else sendFile(ui-file).call @
-    
+
   # Form/App - auto duplicate sheet for new user to input data 
   @get '/:template/form': ->
     template = @params.template
@@ -257,7 +261,7 @@
     {snapshot} <~ SC._get template, IO
     <~ SC._put room, snapshot
     @response.redirect "#BASEPATH/#room/app" 
-  @get '/:template/appeditor': sendFile \panels.html    
+  @get '/:template/appeditor': sendFile \panels.html
 
   @get '/:room/edit': ->
     room = @params.room
@@ -530,3 +534,5 @@
       broadcast @data
     | otherwise
       broadcast @data
+
+  @use serveStatic __dirname

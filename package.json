@@ -8,19 +8,23 @@
     "url": "https://github.com/audreyt/ethercalc"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
     "cors": "*",
     "csv-parse": "^0.0.6",
     "iconv-lite": "^0.4.13",
     "j": "0.4.x",
     "livescript": "1.4.x",
     "minimatch": "*",
+    "morgan": "^1.7.0",
     "nodemailer": "*",
     "optimist": "*",
     "redis": "0.12.x",
+    "serve-static": "^1.11.1",
     "socialcalc": "2.x",
     "uuid-pure": "*",
     "xoauth2": "*",
-    "zappajs": "0.5.x"
+    "zappajs": "^6.2.0",
+    "zappajs-client": "^2.4.0"
   },
   "optionalDependencies": {
     "webworker-threads": "^0.7.1"
@@ -34,6 +38,7 @@
     "style-loader": "^0.8.2",
     "stylus-loader": "^0.4.0",
     "superagent": "^0.21.0",
+    "uglify-js": "^2.7.4",
     "webpack": "^1.4.13",
     "webpack-dev-server": "^1.6.6"
   },
@@ -42,6 +47,7 @@
     "ethercalc": "./bin/ethercalc"
   },
   "scripts": {
+    "prepublish": "make all",
     "start": "node app.js"
   },
   "engines": {
